@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 #include <bitset> //manipular bit
-#include <fstream> //para manipula��o de arquivos
+#include <fstream> //para manipulacao de arquivos
 #include <iomanip> //para hex,setw,setfill
 using namespace std;
 
@@ -73,14 +73,14 @@ vector<InstrucaoJ> tabelaJ = {
 	{"jal", 3}
 };
 
-//fun��o tranformar em binario
+//funcao tranformar em binario
 string concatenarR(int opCode0, int rs0, int rt0, int rd0, int shamt0, int func0);
 
-//fun��o tranformar em hex
+//funcao tranformar em hex
 
 int main() {
 
-	//abrir arquivo em bin�rio
+	//abrir arquivo em binario
 	string arquivoBin = "dadosBin.bin";
 
 	ofstream arquivoB(arquivoBin, ios::binary);//abre em modo binario //, ios::binary||ios::out
@@ -169,20 +169,105 @@ int main() {
 	}
 
 	// procura em I
-	for (auto instr : tabelaI) {
-		if (instr.nome == nome) {
-			opCode0 = instr.opcode;
-			cin.get(); //joga fora a virgula
+
+for (auto instr : tabelaI) {
+	if (instr.nome == nome) {
+		opcode0 = instr.opcode;
+		if (instr.nome == "beq") {
 			cin.get(); //joga fora o $
-			cin >> rd0; //pegou o valor do primeiro registrador
+			cin >> rs0; //pegou o valor do primeiro registrador
 			cin.get(); //joga fora a virgula
 			cin.get(); //joga fora o $
 			cin >> rt0; //pegou o valor do segundo $
 			cin.get();//jogou a virgula fora
 			cin >> immediate0; //pegou o terceiro valor
 			salvar_Intrução_I(opCode0, rs0, rt0, immediate0, arquivoBin, arquivoHex);
+			return;// ja achou sua instrução vaza daqui
+		}
+		else if (instr.nome == "bne") {
+			cin.get(); //joga fora o $
+			cin >> rs0; //pegou o valor do primeiro registrador
+			cin.get(); //joga fora a virgula
+			cin.get(); //joga fora o $
+			cin >> rt0; //pegou o valor do segundo $
+			cin.get();//jogou a virgula fora
+			cin >> immediate0; //pegou o terceiro valor
+			salvar_Intrução_I(opCode0, rs0, rt0, immediate0, arquivoBin, arquivoHex);
+			return;// ja achou sua instrução vaza daqui
+		}
+		else if (instr.nome == "addi") {
+			cin.get(); //joga fora o $
+			cin >> rt0; //pegou o valor do primeiro registrador
+			cin.get(); //joga fora a virgula
+			cin.get(); //joga fora o $
+			cin >> rs0; //pegou o valor do segundo $
+			cin.get();//jogou a virgula fora
+			cin >> immediate0; //pegou o terceiro valor
+			salvar_Intrução_I(opCode0, rs0, rt0, immediate0, arquivoBin, arquivoHex);
+			return;// ja achou sua instrução vaza daqui
+		}
+		else if (instr.nome == "addiu") {
+			cin.get(); //joga fora o $
+			cin >> rt0; //pegou o valor do primeiro registrador
+			cin.get(); //joga fora a virgula
+			cin.get(); //joga fora o $
+			cin >> rs0; //pegou o valor do segundo $
+			cin.get();//jogou a virgula fora
+			cin >> immediate0; //pegou o terceiro valor
+			salvar_Intrução_I(opCode0, rs0, rt0, immediate0, arquivoBin, arquivoHex);
+			return;// ja achou sua instrução vaza daqui
+		}
+		else if (instr.nome == "sltiu") {
+			cin.get(); //joga fora o $
+			cin >> rt0; //pegou o valor do primeiro registrador
+			cin.get(); //joga fora a virgula
+			cin.get(); //joga fora o $
+			cin >> rs0; //pegou o valor do segundo $
+			cin.get();//jogou a virgula fora
+			cin >> immediate0; //pegou o terceiro valor
+			salvar_Intrução_I(opCode0, rs0, rt0, immediate0, arquivoBin, arquivoHex);
+			return;// ja achou sua instrução vaza daqui
+		}
+		else if (instr.nome == "andi") {
+			cin.get(); //joga fora o $
+			cin >> rt0; //pegou o valor do primeiro registrador
+			cin.get(); //joga fora a virgula
+			cin.get(); //joga fora o $
+			cin >> rs0; //pegou o valor do segundo $
+			cin.get();//jogou a virgula fora
+			cin >> immediate0; //pegou o terceiro valor
+			salvar_Intrução_I(opCode0, rs0, rt0, immediate0, arquivoBin, arquivoHex);
+			return;// ja achou sua instrução vaza daqui
+		}
+		else if (instr.nome == "ori") {
+			cin.get(); //joga fora o $
+			cin >> rt0; //pegou o valor do primeiro registrador
+			cin.get(); //joga fora a virgula
+			cin.get(); //joga fora o $
+			cin >> rs0; //pegou o valor do segundo $
+			cin.get();//jogou a virgula fora
+			cin >> immediate0; //pegou o terceiro valor
+			salvar_Intrução_I(opCode0, rs0, rt0, immediate0, arquivoBin, arquivoHex);
+			return;// ja achou sua instrução vaza daqui
+		}
+		else if (instr.nome == "lui") {
+			cin.get(); //joga fora o $
+			cin >> rt0; //pegou o valor do primeiro registrador
+			cin.get(); //joga fora a virgula
+			cin >> rs0; //pegou o valor do segundo $
+			cin.get();//jogou a virgula fora
+			cin >> immediate0; //pegou o terceiro valor
+			salvar_Intrução_I(opCode0, rs0, rt0, immediate0, arquivoBin, arquivoHex);
+			return;// ja achou sua instrução vaza daqui
+		}
+		else if (instr.nome == "lw") {
 			return;
 		}
+		else if (instr.nome == "sw") {
+			return;
+		}
+
+
 	}
 
 	// procura em J
@@ -227,7 +312,7 @@ void salvar_Intrução_R(int opCode0, int rs0, int rt0, int rd0, int shamt0, int
 	unsigned int instrucaoInt = bitset<32>(instrucaoBits).to_ulong();//converte para numero inteiro
 
 	if (arquivoB.is_open()) { //se o arquivoB foi aberto
-		// Escrever no arquivo BIN�RIO
+		// Escrever no arquivo Binario
 		//arquivoB.write(reinterpret_cast<char*>(&instrucaoInt), sizeof(instrucaoInt));
 
 		// arquivoB << instrucaoBits; //mostrar no arquivoBin.bin
@@ -237,7 +322,7 @@ void salvar_Intrução_R(int opCode0, int rs0, int rt0, int rd0, int shamt0, int
 	}
 
 	if (arquivoH.is_open()) { //se o arquivoH foi aberto
-		// Escrever no arquivo BIN�RIO
+		// Escrever no arquivo BINARIO
 		arquivoH << "0x" << hex << uppercase << instrucaoInt << dec << endl;
 		//mostrar no arquivoBin.bin
 	}
@@ -260,7 +345,7 @@ void salvar_Intrução_I(int opCode0, int rs0, int rt0, int immediate, string ar
 	unsigned int instrucaoInt = bitset<32>(instrucaoBits).to_ulong();//converte para numero inteiro
 
 	if (arquivoB.is_open()) { //se o arquivoB foi aberto
-		// Escrever no arquivo BIN�RIO
+		// Escrever no arquivo BINARIO
 		//arquivoB.write(reinterpret_cast<char*>(&instrucaoInt), sizeof(instrucaoInt));
 
 		// arquivoB << instrucaoBits; //mostrar no arquivoBin.bin
@@ -270,7 +355,7 @@ void salvar_Intrução_I(int opCode0, int rs0, int rt0, int immediate, string ar
 	}
 
 	if (arquivoH.is_open()) { //se o arquivoH foi aberto
-		// Escrever no arquivo BIN�RIO
+		// Escrever no arquivo BINARIO
 		arquivoH << "0x" << hex << uppercase << instrucaoInt << dec << endl;
 		//mostrar no arquivoBin.bin
 	}
@@ -290,7 +375,7 @@ void salvar_Intrução_J(int opCode0, int address, string arquivoB, string arqui
 	unsigned int instrucaoInt = bitset<32>(instrucaoBits).to_ulong();//converte para numero inteiro
 
 	if (arquivoB.is_open()) { //se o arquivoB foi aberto
-		// Escrever no arquivo BIN�RIO
+		// Escrever no arquivo BINARIO
 		//arquivoB.write(reinterpret_cast<char*>(&instrucaoInt), sizeof(instrucaoInt));
 
 		// arquivoB << instrucaoBits; //mostrar no arquivoBin.bin
@@ -300,7 +385,7 @@ void salvar_Intrução_J(int opCode0, int address, string arquivoB, string arqui
 	}
 
 	if (arquivoH.is_open()) { //se o arquivoH foi aberto
-		// Escrever no arquivo BIN�RIO
+		// Escrever no arquivo BINARIO
 		arquivoH << "0x" << hex << uppercase << instrucaoInt << dec << endl;
 		//mostrar no arquivoBin.bin
 	}
