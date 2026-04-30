@@ -195,55 +195,6 @@ int main() {
 		}
 	}
 
-
-
-
-
-
-	//tabela R
-	if (nome == "sll") {
-		cin.get(); //joga fora o $
-		cin >> rd0; //pegou o valor do primeiro registrador
-		cin.get(); //joga fora a virgula
-		cin.get(); //joga fora o $
-		cin >> rt0; //pegou o valor do segundo $
-		cin.get();//jogou a virgula fora
-		cin >> shamt0; //pegou o terceiro valor
-
-		string instrucaoBits = concatenarR(opCode0, rs0, rt0, rd0, shamt0, func0); //juntar em uma string
-
-		unsigned int instrucaoInt = bitset<32>(instrucaoBits).to_ulong();//converte para numero inteiro
-
-		if (arquivoB.is_open()) { //se o arquivoB foi aberto
-			// Escrever no arquivo BIN�RIO
-			//arquivoB.write(reinterpret_cast<char*>(&instrucaoInt), sizeof(instrucaoInt));
-
-			// arquivoB << instrucaoBits; //mostrar no arquivoBin.bin
-			// em vez de transformar a string em inteiro e depois escrever, podemos escrever diretamente a string no arquivo binário
-			arquivoB.write(reinterpret_cast<char*>(&instrucaoInt), sizeof(instrucaoInt)); // aqui estamos escrevendo o inteiro no arquivo binário
-			cout << instrucaoBits;
-		}
-
-		if (arquivoH.is_open()) { //se o arquivoH foi aberto
-			// Escrever no arquivo BIN�RIO
-			arquivoH << "0x" << hex << uppercase << instrucaoInt << dec << endl;
-			//mostrar no arquivoBin.bin
-		}
-	}
-	//if (opCode == "srl") {
-	//	cin.get(); //joga fora a virgula
-	//	cin.get(); //joga fora o $
-	//	cin >> rd; //pegou o valor do primeiro registrador
-	//	cin.get(); //joga fora a virgula
-	//	cin.get(); //joga fora o $
-	//	cin >> rt; //pegou o valor do segundo $
-	//	cin.get();//jogou a virgula fora
-	//	cin >> sa; //pegou o terceiro valor
-	//	//precisa trnaformar em binario e em hexadecimal e passar para um arquivo
-
-	//}
-
-
 	//cout << "Aqui: " << opCode<<" "<< rd<<" "<<rt<<" "<<sa;
 	arquivoB.close();
 	arquivoH.close();
