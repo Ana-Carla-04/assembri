@@ -89,6 +89,10 @@ int main() {
 	//abrir arquivo em hexadecimal
 	string arquivoHex = "dadosHex.hex";
 	ofstream arquivoH(arquivoHex);//abre um arquivo em hexadecimal
+	if(!arquivoH.is_open()){
+		return 1;
+	}
+	arquivoH<<"v2.0 raw"<<endl;
 
 
 	string nome;
@@ -318,4 +322,4 @@ void salvar_Intrução_J(int opCode0, int address, string arquivoB, string arqui
 	}
 
 	*/
-}
+
