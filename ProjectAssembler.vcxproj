@@ -125,6 +125,12 @@
   <ItemGroup>
     <ClCompile Include="assem.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="dadosBin.bin" />
+    <None Include="dadosHex.hex" />
+    <None Include="infos.csv" />
+    <None Include="teste.asm" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

@@ -1,4 +1,4 @@
-#include <iostream>
+﻿#include <iostream>
 #include <string>
 #include <vector>
 #include <bitset> //manipular bit
@@ -9,11 +9,11 @@
 #include <cctype> // para isdigit
 using namespace std;
 
-// Estrutura para armazenar informa��es do label
+// Estrutura para armazenar informacoes do label
 struct LabelInfo {
     string nome;
-    int linhaCodigo = 0;      // n�mero da linha no c�digo (instru��o)
-    int enderecoMemoria = 0;  // endere�o de mem�ria
+    int linhaCodigo = 0;      // n�mero da linha no codigo (instru��o)
+    int enderecoMemoria = 0;  // endere�o de memoria
 };
 
 struct InstrucaoR {
@@ -25,6 +25,7 @@ struct Registrador {
     string nome;
     int numero;
 };
+
 
 vector<Registrador> registradores = {
     {"$zero",0},
@@ -110,6 +111,14 @@ vector<InstrucaoJ> tabelaJ = {
     {"jal", 3}
 };
 
+
+
+
+//contadores
+int sll = 0, srl = 0, jr = 0, mfhi = 0, mflo = 0, mult = 0, multu = 0, Cdiv = 0;
+int divu = 0, add = 0, addu = 0, sub = 0, subu = 0, Cand = 0, Cor = 0, slt = 0, sltu = 0, mul = 0;
+int beq = 0, bne = 0, addi = 0, addiu = 0, slti = 0, sltiu = 0, andi = 0, ori = 0, lui = 0, lw = 0, sw = 0,j=0, jal=0;
+
 // Funcoes
 string concatenarR(int opCode0, int rs0, int rt0, int rd0, int shamt0, int func0);
 string concatenarI(int opCode0, int rs0, int rt0, int immediate);
@@ -117,9 +126,9 @@ string concatenarJ(int opCode0, int address);
 void salvar_Intrucao_R(int opCode0, int rs0, int rt0, int rd0, int shamt0, int func0, ofstream& arquivoB, ofstream& arquivoH);
 void salvar_Intrucao_I(int opCode0, int rs0, int rt0, int immediate, ofstream& arquivoB, ofstream& arquivoH);
 void salvar_Intrucao_J(int opCode0, int address, ofstream& arquivoB, ofstream& arquivoH);
-void processarInstrucao(string linha, ofstream& arquivoB, ofstream& arquivoH, map<string, LabelInfo>& tabela, int& enderecoAtual);
 int lerRegistrador(string reg);
 bool ehNumero(string s);
+
 
 // =============================================
 // FUNCAO PARA LIMPAR LINHA (REMOVER COMENTARIOS)
@@ -151,7 +160,7 @@ bool extrairLabel(string linha, string& nomeLabel, string& resto) {
         // Pega o nome do label
         nomeLabel = linha.substr(0, pos);
 
-        // Remove espa�os
+        // Remove espacos
         size_t inicio = nomeLabel.find_first_not_of(" \t");
         size_t fim = nomeLabel.find_last_not_of(" \t");
         if (inicio != string::npos && fim != string::npos) {
@@ -188,7 +197,7 @@ int main() {
 
     // Tabela de simbolos
     map<string, LabelInfo> tabela;
-    
+
 
     string linha;
     int numeroInstrucao = 0;
@@ -280,7 +289,7 @@ int main() {
     int address0 = 0;
     cout << "\n=== SEGUNDA PASSAGEM: TRADUZINDO INSTRUCOES ===" << endl;
 
-    // L� linha por linha novamente
+    // L linha por linha novamente
     while (getline(arquivo2, linha)) {
         string linhaLimpa = limparLinha(linha);
 
@@ -301,7 +310,7 @@ int main() {
 
         cout << "Traduzindo[" << endereco << "]: " << linhaParaProcessar << endl;
 
-        // Aqui voc� coloca a logica de traducao que ja tinha
+        // Aqui voce coloca a logica de traducao que ja tinha
         // Mas ao inves de usar ss, usa stringstream para ler da string
 
         stringstream ss(linhaParaProcessar);
@@ -315,6 +324,12 @@ int main() {
                 opCode0 = instr.opcode;
                 func0 = instr.funct;
                 if (instr.nome == "sll" || instr.nome == "srl") {
+                    if (instr.nome == "sll") {
+                        sll++;
+                    }
+                    else {
+                        srl++;
+                    }
                     ss.get(); //joga fora o $
                     ss >> rd0; //pegou o valor do primeiro registrador
                     ss.get(); //joga fora a virgula
@@ -326,28 +341,59 @@ int main() {
                     break; // aqui ele já salva a instrução e sai do programa, caso encontre a instrução na tabela R
                 }
                 if (instr.nome == "jr") {
+                    jr = + 1;
                     ss.get(); //joga fora o $
                     ss >> rs0; //pegou o valor do primeiro registrador
                     salvar_Intrucao_R(opCode0, rs0, rt0, rd0, shamt0, func0, arquivoB, arquivoH);
-                    arquivoB.close();                   
+                    arquivoB.close();
                     break; // aqui ele já salva a instrução e sai do programa, caso encontre a instrução na tabela R
                 }
                 else if (instr.nome == "mfhi" || instr.nome == "mflo") {
+                    if (instr.nome == "mfhi") {
+                        mfhi++;
+                    }
+                    else {
+                        mflo++;
+                    }
                     ss.get(); //joga fora o $
                     ss >> rd0; //pegou o valor do primeiro registrador
-                    salvar_Intrucao_R(opCode0, rs0, rt0, rd0, shamt0, func0, arquivoB, arquivoH);                                        
+                    salvar_Intrucao_R(opCode0, rs0, rt0, rd0, shamt0, func0, arquivoB, arquivoH);
                     break; // aqui ele já salva a instrução e sai do programa, caso encontre a instrução na tabela R
                 }
                 else if (instr.nome == "mult" || instr.nome == "multu" || instr.nome == "div" || instr.nome == "divu") {
+                    if (instr.nome == "mult") {
+                        mult++;
+                    }
+                    else if (instr.nome == "multu") {
+                        multu++;
+                    }
+                    else if (instr.nome == "div") {
+                        Cdiv++;
+                    }
+                    else {
+                        divu++;
+                    }
                     ss.get(); //joga fora o $
                     ss >> rs0; //pegou o valor do primeiro registrador
                     ss.get(); //joga fora a virgula
                     ss.get(); //joga fora o $
                     ss >> rt0; //pegou o valor do segundo $
-                    salvar_Intrucao_R(opCode0, rs0, rt0, rd0, shamt0, func0, arquivoB, arquivoH);                                       
+                    salvar_Intrucao_R(opCode0, rs0, rt0, rd0, shamt0, func0, arquivoB, arquivoH);
                     break; // aqui ele já salva a instrução e sai do programa, caso encontre a instrução na tabela R
                 }
                 else  if (instr.nome == "add" || instr.nome == "addu" || instr.nome == "sub" || instr.nome == "subu") {
+                    if (instr.nome == "add") {
+                        add++;
+                    }
+                    else if (instr.nome == "addu") {
+                        addu++;
+                    }
+                    else if ( instr.nome == "sub") {
+                        sub++;
+                    }
+                    else {
+                        subu++;
+                    }
                     string rdStr, rsStr, rtStr;
 
                     getline(ss, rdStr, ',');
@@ -367,11 +413,26 @@ int main() {
                     rs0 = lerRegistrador(rsStr);
                     rt0 = lerRegistrador(rtStr);
 
-                    
+
                     salvar_Intrucao_R(opCode0, rs0, rt0, rd0, shamt0, func0, arquivoB, arquivoH);
                     break; // aqui ele já salva a instrução e sai do programa, caso encontre a instrução na tabela R
                 }
                 else if (instr.nome == "and" || instr.nome == "or" || instr.nome == "slt" || instr.nome == "sltu" || instr.nome == "mul") {
+                    if (instr.nome == "and") {
+                        Cand++;
+                    }
+                    else if (instr.nome == "or") {
+                        Cor++;
+                    }
+                    else if (instr.nome == "slt") {
+                        slt++;
+                    }
+                    else if (instr.nome == "sltu") {
+                        sltu++;
+                    }
+                    else {
+                        mul++;
+                    }
                     ss.get(); //joga fora o $
                     ss >> rd0; //pegou o valor do primeiro registrador
                     ss.get(); //joga fora a virgula
@@ -390,6 +451,7 @@ int main() {
             if (instr.nome == nomeInstr) {
                 opCode0 = instr.opcode;
                 if (instr.nome == "beq") {
+                    beq++;
                     string rsStr, rtStr, immediate1;
 
                     getline(ss, rsStr, ',');
@@ -421,6 +483,7 @@ int main() {
                     break;// ja achou sua instrução vaza daqui
                 }
                 else if (instr.nome == "bne") {
+                    bne++;
                     string rsStr, rtStr, immediate1;
 
                     getline(ss, rsStr, ',');
@@ -453,6 +516,7 @@ int main() {
                     break;// ja achou sua instrução vaza daqui
                 }
                 else if (instr.nome == "addi") {
+                    addi++;
                     string rsStr, rtStr, immediate1;
 
                     getline(ss, rsStr, ',');
@@ -484,6 +548,7 @@ int main() {
                     break;// ja achou sua instrução vaza daqui
                 }
                 else if (instr.nome == "addiu") {
+                    addiu++;
                     string rsStr, rtStr, immediate1;
 
                     getline(ss, rsStr, ',');
@@ -515,6 +580,7 @@ int main() {
                     break;// ja achou sua instrução vaza daqui
                 }
                 else if (instr.nome == "sltiu") {
+                    sltiu++;
                     string rsStr, rtStr, immediate1;
 
                     getline(ss, rsStr, ',');
@@ -546,6 +612,7 @@ int main() {
                     break;// ja achou sua instrução vaza daqui
                 }
                 else if (instr.nome == "andi") {
+                    andi++;
                     string rsStr, rtStr, immediate1;
 
                     getline(ss, rsStr, ',');
@@ -577,6 +644,7 @@ int main() {
                     break;// ja achou sua instrução vaza daqui
                 }
                 else if (instr.nome == "ori") {
+                    ori++;
                     string rsStr, rtStr, immediate1;
 
                     getline(ss, rsStr, ',');
@@ -609,6 +677,7 @@ int main() {
                     break;// ja achou sua instrução vaza daqui
                 }
                 else if (instr.nome == "lui") {
+                    lui++;
                     string rsStr, rtStr, immediate1;
 
                     getline(ss, rtStr, ',');
@@ -631,11 +700,17 @@ int main() {
                         if (it != tabela.end()) {
                             immediate0 = it->second.enderecoMemoria;
                         }
-                        
+
                         salvar_Intrucao_I(opCode0, rs0 = 0, rt0, immediate0, arquivoB, arquivoH);
                     }
                 }
                 else if (instr.nome == "lw" || instr.nome == "sw") {
+                    if (instr.nome == "lw") {
+                        lw++;
+                    }
+                    else {
+                        sw++;
+                    }
                     string rtStr, resto;
                     int offset;
 
@@ -676,14 +751,14 @@ int main() {
                         }
 
                         salvar_Intrucao_I(opCode0, rs0 = 0, rt0, immediate0, arquivoB, arquivoH);
-                    }              
+                    }
 
 
                     break;
                 }
             }
         }
-		for (auto instr : tabela) {
+        for (auto instr : tabela) {
             if (instr.first == nomeInstr) {
                 break;
             }
@@ -694,6 +769,7 @@ int main() {
             if (instr.nome == nomeInstr) {
                 opCode0 = instr.opcode;
                 if (instr.nome == "j") {
+                    j++;
                     string destino;
                     ss >> destino;
 
@@ -702,11 +778,12 @@ int main() {
                     if (it != tabela.end()) {
                         address0 = it->second.enderecoMemoria >> 2;
                     }
-                    salvar_Intrucao_J(opCode0, address0, arquivoB, arquivoH);                    
+                    salvar_Intrucao_J(opCode0, address0, arquivoB, arquivoH);
                     break;
 
                 }
                 else if (instr.nome == "jal") {
+                    jal++;
                     string destino;
                     ss >> destino;
 
@@ -721,11 +798,94 @@ int main() {
             }
         }
     }
-        arquivo2.close();
-        arquivoB.close();
-        arquivoH.close();
-        cout << "\nArquivos gerados com sucesso!" << endl;
+
+// =============================================
+// LEITURA DO ARQUIVO CSV DE CICLOS
+// =============================================
+
+
+// Vetor para armazenar pares (nome, quantidade) - APENAS INSTRUÇÕES QUE APARECERAM
+vector<pair<string, int>> vetorQuantidades;
+
+// Adicionar apenas instruções que apareceram (quantidade > 0)
+if (add > 0) vetorQuantidades.push_back({"add", add});
+if (sub > 0) vetorQuantidades.push_back({"sub", sub});
+if (addu > 0) vetorQuantidades.push_back({"addu", addu});
+if (subu > 0) vetorQuantidades.push_back({"subu", subu});
+if (addi > 0) vetorQuantidades.push_back({"addi", addi});
+if (addiu > 0) vetorQuantidades.push_back({"addiu", addiu});
+if (beq > 0) vetorQuantidades.push_back({"beq", beq});
+if (bne > 0) vetorQuantidades.push_back({"bne", bne});
+if (lw > 0) vetorQuantidades.push_back({"lw", lw});
+if (sw > 0) vetorQuantidades.push_back({"sw", sw});
+if (j > 0) vetorQuantidades.push_back({"j", j});
+if (jal > 0) vetorQuantidades.push_back({"jal", jal});
+if (mult > 0) vetorQuantidades.push_back({"mult", mult});
+if (multu > 0) vetorQuantidades.push_back({"multu", multu});
+if (Cdiv > 0) vetorQuantidades.push_back({"div", Cdiv});
+if (divu > 0) vetorQuantidades.push_back({"divu", divu});
+if (mul > 0) vetorQuantidades.push_back({"mul", mul});
+if (Cand > 0) vetorQuantidades.push_back({"and", Cand});
+if (Cor > 0) vetorQuantidades.push_back({"or", Cor});
+if (slt > 0) vetorQuantidades.push_back({"slt", slt});
+if (sltu > 0) vetorQuantidades.push_back({"sltu", sltu});
+if (slti > 0) vetorQuantidades.push_back({"slti", slti});
+if (sltiu > 0) vetorQuantidades.push_back({"sltiu", sltiu});
+if (andi > 0) vetorQuantidades.push_back({"andi", andi});
+if (ori > 0) vetorQuantidades.push_back({"ori", ori});
+if (lui > 0) vetorQuantidades.push_back({"lui", lui});
+if (sll > 0) vetorQuantidades.push_back({"sll", sll});
+if (srl > 0) vetorQuantidades.push_back({"srl", srl});
+if (jr > 0) vetorQuantidades.push_back({"jr", jr});
+if (mfhi > 0) vetorQuantidades.push_back({"mfhi", mfhi});
+if (mflo > 0) vetorQuantidades.push_back({"mflo", mflo});
+
+// Ler o arquivo CSV
+ifstream csv("infos.csv");
+if (!csv.is_open()) {
+    cout << "Erro: Não foi possível abrir o arquivo ciclos.csv" << endl;
+} else {
+    string linha;
+    int totalCiclos = 0;
+    
+    cout << "\n=== CALCULO DE CICLOS ===" << endl<<endl;
+    cout << "Instrucao | quantidade" << endl;
+    cout << "-------------------" << endl;
+    
+    int c=0;
+    while (getline(csv, linha)) {
+        if (linha.empty()) continue;
+        
+        stringstream ss(linha);
+        string nomeCSV;
+        int ciclos;
+        
+        getline(ss, nomeCSV, ',');  // Lê até a vírgula
+        ss >> ciclos;                // Lê o número
+        
+        // Procurar no vetor de quantidades
+        for (const auto& quant : vetorQuantidades) {
+            if (quant.first == nomeCSV) {
+                int resultado = quant.second * ciclos;
+                totalCiclos += resultado;
+                
+                cout << left << setw(10) << nomeCSV << " | "
+                     << setw(10) << quant.second <<  endl;
+                c = c + resultado;
+                break;
+            }
+        }
     }
+    cout << endl << "CPI:" << c;
+    
+    
+}
+   
+    arquivo2.close();
+    arquivoB.close();
+    arquivoH.close();
+    cout << "\nArquivos gerados com sucesso!" << endl;
+}
 
 // =============================================
 // IMPLEMENTACOES DAS FUNCOES (suas funcoes originais)
@@ -762,7 +922,7 @@ string concatenarJ(int opCode0, int address) {
 }
 
 void salvar_Intrucao_R(int opCode0, int rs0, int rt0, int rd0, int shamt0, int func0, ofstream& arquivoB, ofstream& arquivoH) {
-    
+
     string instrucaoBits = concatenarR(opCode0, rs0, rt0, rd0, shamt0, func0);
 
     if (arquivoB.is_open()) {

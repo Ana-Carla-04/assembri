@@ -19,4 +19,18 @@
       <Filter>Arquivos de Recurso</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="teste.asm">
+      <Filter>Arquivos de Origem</Filter>
+    </None>
+    <None Include="infos.csv">
+      <Filter>Arquivos de Origem</Filter>
+    </None>
+    <None Include="dadosBin.bin">
+      <Filter>Arquivos de Origem</Filter>
+    </None>
+    <None Include="dadosHex.hex">
+      <Filter>Arquivos de Origem</Filter>
+    </None>
+  </ItemGroup>
 </Project>
