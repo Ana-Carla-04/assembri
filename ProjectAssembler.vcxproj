@@ -125,6 +125,10 @@
   <ItemGroup>
     <ClCompile Include="assem.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="dadosHex.hex" />
+    <None Include="teste.asm" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
