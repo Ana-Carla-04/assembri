@@ -115,26 +115,8 @@ j,2
 
 ---
 
-## ⚠️ Limitações
-
-* Não suporta pseudo-instruções (ex: `move`, `li`)
-* Suporte limitado a registradores definidos manualmente
-
----
-
-## 🚀 Possíveis melhorias
-
-* Suporte a pseudo-instruções
-* Melhor tratamento de erros
-* Interface gráfica ou CLI mais amigável
-* Suporte a mais registradores e instruções
-* Testes automatizados
-* Otimização do parsing (menos repetição de código)
-
----
-
 ## 👨‍💻 Autores
-Ana Carla de Freitas Oliveira
+Ana Carla de Freitas Oliveira,
 João Lourenço de Azevedo Neto
 
 Projeto desenvolvido como prática de:
