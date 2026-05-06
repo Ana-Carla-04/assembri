@@ -1,0 +1,3 @@
+﻿  Main.cpp
+C:\Users\Lourenço\source\repos\ProjetoAssembler\ProjetoAssembler\Main.cpp(768,25): warning C4101: 'offset': variável local não referenciada
+  ProjetoAssembler.vcxproj -> C:\Users\Lourenço\source\repos\ProjetoAssembler\x64\Debug\ProjetoAssembler.exe
