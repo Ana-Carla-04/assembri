@@ -10,7 +10,7 @@
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
-      "VerticalTabListWidth": 256,
+      "VerticalTabListWidth": 100,
       "DocumentGroups": [
         {
           "DockedWidth": 200,
@@ -24,7 +24,7 @@
               "RelativeDocumentMoniker": "assem.cpp",
               "ToolTip": "C:\\Users\\Louren\u00E7o\\Documents\\GitHub\\Hospital_Manager\\assembri\\assem.cpp",
               "RelativeToolTip": "assem.cpp",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFAAAAASAAAAAAAAAA==",
+              "ViewState": "AgIAAOQAAAAAAAAAAAAAAI8AAAAeAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2026-04-29T01:30:48.358Z",
               "EditorCaption": ""
